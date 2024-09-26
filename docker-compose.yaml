@@ -11,6 +11,19 @@ services:
       - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
     volumes: 
       - ./cache:/data
+
+
+  web-service:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - REDIS_ADDR=cache:6379
+      - LIMITER_IP=5
+      - LIMITER_TOKEN=10
+      - BLOCK_DURATION=5m
+    depends_on:
+      - cache
 volumes:
   cache:
     driver: local
